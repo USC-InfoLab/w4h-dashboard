@@ -16,9 +16,9 @@ Docker is available for Linux, Mac, and Windows. Install the appropriate version
 ### Running the Container from Docker Desktop
 
 When you load an image into memory, it becomes a running container. To run a container in Docker Desktop:Click on the "run" icon under "Actions" next to the image name.
-![alt text](/static/docker_readme.png)
+![alt text](/images/docker_readme.png)
 Click on "Optional Settings" and fill in the form as follows:
- ![alt text](/static/docker_readme2.png)
+ ![alt text](/images/docker_readme2.png)
 Finally, click the "Run" button to start the container.
 
 ### Running the Container from the Command Line as a Background Process
