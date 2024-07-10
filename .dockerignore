@@ -1,0 +1,26 @@
+venv/
+<<<<<<< HEAD
+.github/
+.git/
+=======
+.vscide/
+.git/
+.idea/
+>>>>>>> 5336d8cbb43d02384e2ba0e67982f8b5efe19783
+__pycache__
+user.db
+tools
+
+# Don't stage notebooks
+*.ipynb
+
+# Don't stage .vscode and .idea
+.vscode/
+.idea/
+
+# Don't state conf.py
+tools/
+
+# Don't stages dataset
+*.csv
+dataset/
