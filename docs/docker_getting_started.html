@@ -1,0 +1,99 @@
+<h1 id="docker-getting-started-guide">Docker Getting Started Guide</h1>
+<h2 id="installation">Installation</h2>
+<p>Docker is available for Linux, Mac, and Windows. Install the appropriate version of Docker Desktop from <a href="https://www.docker.com/products/docker-desktop">here</a>.</p>
+<h2 id="installing-the-image-in-docker-desktop">Installing the Image in Docker Desktop</h2>
+<ol type="1">
+<li>Start the Docker Desktop application.</li>
+<li>In Docker Desktop, search for <code>uscimsc/w4h</code> and select the preview-tagged image.</li>
+<li>Click “pull” to download the image.</li>
+</ol>
+<h2 id="starting-the-container">Starting the Container</h2>
+<h3 id="running-the-container-from-docker-desktop">Running the Container from Docker Desktop</h3>
+<p>When you load an image into memory, it becomes a running container. To run a container in Docker Desktop:Click on the “run” icon under “Actions” next to the image name. <img src="/static/docker_readme.png" alt="alt text" /> Click on “Optional Settings” and fill in the form as follows: <img src="/static/docker_readme2.png" alt="alt text" /> Finally, click the “Run” button to start the container.</p>
+<h3 id="running-the-container-from-the-command-line-as-a-background-process">Running the Container from the Command Line as a Background Process</h3>
+<p>Alternatively, you can run a Docker image from the CLI, which is the preferred method for running Docker images.</p>
+<p><strong>NOTE:</strong> To use the Docker Command Line Interface (CLI) you may need to add <code>$HOME/.docker/bin</code> to your PATH (see note under Settings &gt; Advanced in docker desktop).</p>
+<p>When you start the container for the first time, docker will “pull” the image from Docker Hub and place a copy on your system.</p>
+<p>To start the container as a background process, execute:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="ex">docker</span> run -p 5432:5432 -e POSTGRES_DB=admin -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -e hostname=db -dp 8501:8501 -p 8888:8888 --name w4h uscimsc/w4h:preview</span></code></pre></div>
+<h3 id="running-the-container-from-the-command-line-in-verbose-mode">Running the Container from the Command Line in Verbose Mode</h3>
+<p>To start the container in verbose mode, execute in a terminal:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="ex">docker</span> run -p 5432:5432 -e POSTGRES_DB=admin -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -e hostname=db -p 8501:8501 -p 8888:8888 --name w4h uscimsc/w4h:preview</span></code></pre></div>
+<p>The following is the truncated output:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="ex">docker</span> run -p 5432:5432 -e POSTGRES_USER=admin -e POSTGRES_DB=admin -e POSTGRES_PASSWORD=admin -e hostname=db -p 8501:8501 uscimsc/w4h:sample</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="ex">Unable</span> to find image <span class="st">&#39;uscimsc/w4h:sample&#39;</span> locally</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a><span class="ex">sample</span>: Pulling from uscimsc/w4h</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a><span class="ex">09f376ebb190</span>: Already exists</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a><span class="ex">276709cbedc1</span>: Already exists</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a><span class="ex">e5c23cad8c0c</span>: Already exists</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a><span class="ex">a56c5f373d66</span>: Already exists</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a><span class="ex">52a924435656</span>: Already exists</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a><span class="ex">44287a1b4544</span>: Pull complete</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a><span class="ex">faeff104f7d4</span>: Pull complete</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true"></a><span class="ex">8348408b99d4</span>: Pull complete</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true"></a><span class="ex">42f17385f3e6</span>: Pull complete</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true"></a><span class="ex">f664f8d57e6f</span>: Pull complete</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true"></a><span class="ex">fc8b5d5b936d</span>: Pull complete</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true"></a><span class="ex">f0f33a64bd6a</span>: Pull complete</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true"></a><span class="ex">d0ecff9210b4</span>: Pull complete</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true"></a><span class="ex">fc27e1e5de2b</span>: Pull complete</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true"></a><span class="ex">4a3bc7281b03</span>: Pull complete</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true"></a><span class="ex">Digest</span>: sha256:6475ddd657e2264751081ee7567367455deb876975ad3e862dbf2446a27d0eb0</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true"></a><span class="ex">Status</span>: Downloaded newer image for uscimsc/w4h:sample</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true"></a><span class="ex">WARNING</span>: The requested image<span class="st">&#39;s platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true"></a><span class="st">Starting PostgreSQL 15 database server: main.</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true"></a><span class="st">...</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true"></a><span class="st">Collecting usage statistics. To deactivate, set browser.gatherUsageStats to False.</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true"></a><span class="st"> * Serving Flask app &#39;</span>stream_sim<span class="st">&#39; (lazy loading)</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true"></a><span class="st"> * Environment: production</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true"></a><span class="st">   WARNING: This is a development server. Do not use it in a production deployment.</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true"></a><span class="st">   Use a production WSGI server instead.</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true"></a><span class="st"> * Debug mode: off</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true"></a><span class="st">WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true"></a><span class="st"> * Running on http://127.0.0.1:9977</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true"></a><span class="st">Press CTRL+C to quit</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true"></a><span class="st">  You can now view your Streamlit app in your browser.</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true"></a></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true"></a><span class="st">  Network URL: http://172.17.0.2:8501</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true"></a><span class="st">  External URL: http://64.98.216.199:8501</span></span></code></pre></div>
+<p>You can reach the dashboard at http://localhost:8501. ## Container Management</p>
+<h3 id="show-all-running-containers">Show All Running Containers</h3>
+<p>To show all currently running containers on your system, execute:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="ex">docker</span> ps</span></code></pre></div>
+<p>The following is an example output:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="ex">CONTAINER</span> ID   IMAGE                COMMAND                  CREATED        STATUS        PORTS                                            NAMES</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a><span class="ex">8e1812539aa6</span>   uscimsc/w4h:sample   <span class="st">&quot;./inituser_and_star…&quot;</span>   23 hours ago   Up 23 hours   0.0.0.0:5432-<span class="op">&gt;</span>5432/tcp, 0.0.0.0:8501-<span class="op">&gt;</span>8501/tcp   kind_cohen</span></code></pre></div>
+<h3 id="show-all-stopped-containers">Show All Stopped Containers</h3>
+<p>To show all stopped containers on your system, execute:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="ex">docker</span> ps -filter <span class="st">&quot;status=exited&quot;</span></span></code></pre></div>
+<p>The following is an example output:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="ex">CONTAINER</span> ID   IMAGE                COMMAND                  CREATED        STATUS        PORTS                                            NAMES</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a><span class="ex">8e1812539aa6</span>   uscimsc/w4h:sample   <span class="st">&quot;./inituser_and_star…&quot;</span>   23 hours ago   Up 23 hours   0.0.0.0:5432-<span class="op">&gt;</span>5432/tcp, 0.0.0.0:8501-<span class="op">&gt;</span>8501/tcp   kind_cohen</span></code></pre></div>
+<h3 id="stopping-the-container">Stopping the Container</h3>
+<p>To stop a running container, execute:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="ex">docker</span> stop <span class="op">&lt;</span>container id<span class="op">&gt;</span></span></code></pre></div>
+<h3 id="starting-a-stopped-container">Starting a Stopped Container</h3>
+<p>To restart a stopped container, execute:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="ex">docker</span> start <span class="op">&lt;</span>container id<span class="op">&gt;</span></span></code></pre></div>
+<h3 id="removing-a-container">Removing a Container</h3>
+<p>To remove a Docker container from your system, execute:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="ex">docker</span> rm <span class="op">&lt;</span>container id<span class="op">&gt;</span></span></code></pre></div>
+<h3 id="starting-a-shell-on-a-running-container">Starting a Shell on a Running Container</h3>
+<p>To open a shell session on a running container, execute:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="ex">docker</span> exec -it <span class="op">&lt;</span>container ID<span class="op">&gt;</span> sh</span></code></pre></div>
+<h2 id="image-management">Image Management</h2>
+<h3 id="show-all-images-in-local-repository">Show All Images in Local Repository</h3>
+<p>To see all images on your local system, execute:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="ex">docker</span> images</span></code></pre></div>
+<p>The following is an example of the output:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="ex">REPOSITORY</span>    TAG       IMAGE ID       CREATED        SIZE</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a><span class="ex">uscimsc/w4h</span>   sample    9b5e51e6d1b8   25 hours ago   1.66GB</span></code></pre></div>
+<h3 id="remove-image-from-local-repository">Remove Image from Local Repository</h3>
+<p>To remove an image from your system, run:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="ex">docker</span> rmi <span class="op">&lt;</span>image name<span class="op">&gt;</span></span></code></pre></div>
+<h2 id="how-to-login-dashboard">How to login dashboard</h2>
+<p>Then access <code>http://{your_server_ip}:8501/</code> to see the dashboard.</p>
+<p>username: admin passward: admin</p>
+<p>more details please check <a href="https://github.com/USC-InfoLab/w4h-documentation/blob/main/docs/getting-started/how_to_start.md">Use W4h dashboard to track your patients’ health data</a></p>
