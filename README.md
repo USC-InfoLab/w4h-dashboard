@@ -32,4 +32,4 @@ This toolkit contains the following components, each tailored to address specifi
 
 ## Getting Started with Docker
 
-To get started with using the W4H Integrated Toolkist, please see [Docker Getting Started](/docs/docker_getting_started.md)
+To get started with using the W4H Integrated Toolkit, please see [Docker Getting Started](/docs/docker_getting_started.md)

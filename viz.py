@@ -1412,5 +1412,6 @@ def main():
 
 if __name__ == '__main__':
     if not st.session_state.get("page"):
-        st.session_state['page'] = 'tutorial'
+        st.session_state['page'] = 'login'
     main()
+    
