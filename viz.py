@@ -1,7 +1,5 @@
-import copy
 import hashlib
 import traceback
-import pickle
 
 import numpy as np
 import pandas as pd
@@ -10,10 +8,8 @@ import streamlit_ext as ste
 from datetime import datetime as dt
 from datetime import timedelta
 from datetime import time as dt_time
-import plotly.express as px
 import plotly.graph_objs as go
 import time
-import urllib.parse
 import requests, json
 import pydeck as pdk
 from script.nav import createNav
@@ -433,7 +429,9 @@ def filter_users(df, attributes, ignore_nulls=True):
 
 # Define the input page
 def input_page(config):
+    st.title("Input")
     global TIMEOUT
+
     # Get the session state
     session = st.session_state
     if session is None:
@@ -651,6 +649,7 @@ def input_page(config):
 
 # Define the results page
 def results_page(config):
+    st.title("Results")
     # Get the session state
     session = st.session_state
     if session is None:
@@ -1223,9 +1222,11 @@ def login_page():
 
 
 def query_history_page():
+    st.title('Query History')
+
     session = st.session_state
 
-    st.markdown('Query History')
+
     username = session.get('login-username')
     query_history = getSessionByUsername(username)
 
@@ -1249,6 +1250,9 @@ def query_history_page():
 
 
 def tutorial_page():
+    st.title('Getting Started')
+    st.markdown('For details on using the W4H Toolkit see:')
+    st.markdown('[W4H Documentation](https://github.com/USC-InfoLab/w4h-documentation/blob/main/docs/index.md)')
     st.markdown('Build your config file from here:  ')
     st.markdown('[Tutorial](https://w4h-tutorial.vercel.app/)')
     st.markdown('Then upload here:  ')
@@ -1273,7 +1277,7 @@ def tutorial_page():
         st.success("Update success!")
 
 def setting_page():
-    st.title("Database Management")
+    st.title('Database Management')
 
     config = load_config(db_config_path)
     if 'database_number' not in config:
@@ -1382,7 +1386,8 @@ def main():
         # show a drop list to choose current db
 
         pre_current_db = session.get('current_db')
-        exist_databases = [""] + get_existing_databases()
+        #exist_databases = [""] + get_existing_databases()
+        exist_databases = get_existing_databases()
         session["current_db"] = st.selectbox("Select a database", exist_databases, index=exist_databases.index(
             pre_current_db) if pre_current_db in exist_databases else 0)
         if pre_current_db != session.get('current_db'):

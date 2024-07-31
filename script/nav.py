@@ -23,7 +23,7 @@ def createNav():
 
     st.sidebar.divider()
     st.sidebar.caption("Tutorial")
-    tutorial = st.sidebar.button("How to Start",use_container_width=True,type="secondary")
+    tutorial = st.sidebar.button("Getting Started",use_container_width=True,type="secondary")
 
     if (loginPage):
         if(isLogin):

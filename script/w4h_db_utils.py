@@ -113,8 +113,10 @@ def get_existing_databases(config_file='conf/db_config.yaml') -> list:
         db_engine = get_db_engine(db_server_id=i)
         try:
             with db_engine.connect() as connection:
-                result = connection.execute(text("SELECT datname FROM pg_database WHERE datistemplate = false;"))
+                result = connection.execute(text("SELECT datname FROM pg_database WHERE datistemplate = false "
+                                                 "and datname NOT IN ('postgres','admin');"))
                 db_list += [ '[' + config['database'+str(i)]['nickname'] + '] ' + row[0] for row in result]
+                logger.info("DB LIST", db_list)
             db_engine.dispose()
         except Exception as err:
             logger.error(err)

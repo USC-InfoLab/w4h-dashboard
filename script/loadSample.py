@@ -1,16 +1,8 @@
-import datetime
-import os
-import sqlite3
-import json
-import pickle
-import streamlit as st
 from loguru import logger
 import pandas as pd
 from sqlalchemy import create_engine, text, MetaData, Table, Column, String, ForeignKey, DateTime, REAL, Integer, Float, Boolean
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import database_exists, create_database
-
-import openai
 
 import yaml
 import sqlalchemy
@@ -98,6 +90,10 @@ def create_w4h_instance(db_server:str, db_name: str, config_file='../conf/config
     # Create the W4H tables
     create_tables(config_file=config_file, db_name=db_name, db_server_nickname=db_server)
 
+    mappings = {"user_id": "user_id", "age": "age", "height": "height", "state_of_residence": "state",
+                "data_collection_start_date": "pebd", "consent": "consent"}
+    populate_table("geomts_users", "/app/datasets/sampleSubjectData.csv", mappings)
+
     mappings = {"user_id": "user_id", "timestamp": "timestamp", "weight": "weight_kg"}
     populate_table("weight", "/app/datasets/sampleWeightData.csv", mappings)
 
@@ -162,8 +158,11 @@ def get_db_engine(config_file: str = '../conf/db_config.yaml', db_server_id=1, d
 def populate_table(table_name, csv_file, mapping):
     df = pd.read_csv(csv_file)
     # add timestamp column from date and time
-    df['timestamp'] = df.apply(lambda row: row.date + " " + row.time, axis=1)
-    populate_tables(df, "[local db] w4h-db", mapping)
+    if 'date' and 'time' in df.columns:
+        df['timestamp'] = df.apply(lambda row: row.date + " " + row.time, axis=1)
+        populate_tables(df, "[local db] w4h-db", mapping)
+    else:
+        populate_subject_table(df, "[local db] w4h-db", mapping)
 
 def populate_tables(df: pd.DataFrame, db_name: str, mappings: dict, config_path='../conf/config.yaml'):
     """Populate the W4H tables in the given database with the data from the given dataframe based on
@@ -237,4 +236,33 @@ def populate_tables(df: pd.DataFrame, db_name: str, mappings: dict, config_path=
     # Commit the remaining changes and close the session
     session.commit()
     session.close()
+    engine.dispose()
+
+def populate_subject_table(df: pd.DataFrame, db_name: str, mappings: dict, config_path='../conf/config.yaml'):
+    """Populate the W4H tables in the given database with the data from the given dataframe based on
+    the mappings between the CSV columns and the database tables.
+
+    Args:
+        df (pd.DataFrame): Dataframe containing the data to be inserted into the database
+        db_name (str): Name of the database to insert the data into
+        mappings (dict): Dictionary containing the mappings between the CSV columns and the database tables
+        config_path (str, optional): Path to the config file. Defaults to 'conf/config.yaml'.
+    """
+    # Load the config
+    config = load_config(config_path)
+
+    # Create a session
+    engine = get_db_engine(mixed_db_name=db_name)
+
+    # create a user table dataframe using the mappings
+    user_tbl_name = config['mapping']['tables']['user_table']['name']
+    user_df = pd.DataFrame()
+    for k, v in mappings.items():
+        if v is not None:
+            user_df[k] = df[v]
+    # populate the user table (directly push df to table), if already exists, append new users
+    # if columns don't exist, ignore
+    user_df.to_sql(user_tbl_name, engine, if_exists='append', index=False)
+
+    # Commit the remaining changes and close the session
     engine.dispose()
