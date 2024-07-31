@@ -8,7 +8,6 @@ from script.utils import load_config
 
 from script.w4h_db_utils import create_w4h_instance, get_existing_databases, populate_tables, populate_subject_table,get_existing_database_server
 
-
 CONFIG_FILE = 'conf/config.yaml'
 
 def preprocess_string(s: str) -> str:
